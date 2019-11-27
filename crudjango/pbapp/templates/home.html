@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody id="book-list">
-        {% for post in objects %}
+        {% for post in key2select %}
         <tr>
             <td><pre>{{ post.text|linebreaks }}</pre>{{ post.created }}</td>
             <td></td>

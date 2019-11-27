@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Member
+from pba.models import Post
 
 # Create your views here.
 
@@ -11,12 +12,14 @@ def index(request):
 def create(request):
     member = Member(firstname=request.POST['firstname'], lastname=request.POST['lastname'])
     member.save()
+    post = Post(myowner=member,text=member.firstname)
+    post.save()
     return redirect('/')
 
 def edit(request, id):
     members = Member.objects.get(id=id)
     context = {'members': members}
-    return render(request, 'crud/edit.html', context)
+    return render(request, 'pbapp/home.html', context)
 
 def update(request, id):
     member = Member.objects.get(id=id)

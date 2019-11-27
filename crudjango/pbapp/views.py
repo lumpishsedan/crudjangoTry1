@@ -6,31 +6,18 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #from django.views.generic.edit import CreateView # new
 from django.shortcuts import render
 from .forms import PostForm
+from crud.models import Member
 
 from .models import Post
 
-# class HomePageView(ListView):
-#     model = Post
-#     template_name = 'home.html'
-#     context_object_name = 'all_posts_list' # new
-#
-#
-# class PostCreateView(View):
-#     def post(self, request):
-#         form = PostForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             form = PostForm()
-#         return render(request, 'add.html', {'form': form})
-#
-#     def get(self, request):
-#         form = PostForm()
-#         return render(request, 'add.html', {'form': form})
-#
-def list_and_create_view(request):
+def list_and_create_view(request, id):
+    member = Member.objects.get(id=id)
+    key2select = Post.objects.filter(myowner=member)
     form = PostForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
-        form.save()
+        post = form.save(commit=False)
+        post.myowner = member
+        post.save()
         form = PostForm()
 
     # notice this comes after saving the form to pick up new objects
@@ -46,4 +33,4 @@ def list_and_create_view(request):
         #If page is out of range deliver last page of results
         objects = paginator.page(paginator.num_pages)
     return render(request,
-      'home.html', {'page': page,'objects': objects,'form': form})
+      'home.html', {'page': page,'key2select': key2select,'objects': objects,'form': form})
