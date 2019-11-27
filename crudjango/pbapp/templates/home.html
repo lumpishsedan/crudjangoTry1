@@ -1,16 +1,22 @@
 <!-- templates/home.html -->
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="container mt-4">
   <h1 class="display-4 text-center">
-    <i class="fas fa-book-open text-primary"></i> My<span class="text-primary">Message</span>Book</h1>
-<form id="book-form" action="" method="post">
-  {% csrf_token %}
-  <div class="form-group">
+    <i class="fas fa-book-open text-primary"></i> My<span class="text-primary"
+      >Message</span
+    >Book
+  </h1>
+  <form id="book-form" action="" method="post">
+    {% csrf_token %}
+    <div class="form-group">
       {{ form.as_p }}
-  <input type="submit" value="Add Message" class="btn btn-primary btn-block mt-4">
-  </div>
-</form>
+      <input
+        type="submit"
+        value="Add Message"
+        class="btn btn-primary btn-block mt-4"
+      />
+    </div>
+  </form>
 
   <table class="table table-striped mt-5">
     <thead>
@@ -20,15 +26,17 @@
       </tr>
     </thead>
     <tbody id="book-list">
-        {% for post in key2select %}
-        <tr>
-            <td><pre>{{ post.text|linebreaks }}</pre>{{ post.created }}</td>
-            <td></td>
-          </tr>
-        {% endfor %}
+      {% for post in objects %}
+      <tr>
+        <td>
+          <pre>{{ post.text|linebreaks }}</pre>
+          {{ post.created }}
+        </td>
+        <td></td>
+      </tr>
+      {% endfor %}
     </tbody>
   </table>
-{% include "pagination.html" with page=objects %}
+  {% include "pagination.html" with page=objects %}
 </div>
-{% include "footer.html" %}
-{% endblock content %}
+{% include "footer.html" %} {% endblock content %}

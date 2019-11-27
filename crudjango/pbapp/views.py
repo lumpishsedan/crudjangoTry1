@@ -21,7 +21,7 @@ def list_and_create_view(request, id):
         form = PostForm()
 
     # notice this comes after saving the form to pick up new objects
-    objects = Post.objects.all()
+    objects = key2select
     paginator = Paginator(objects, 3)# 3 posts in each page
     page = request.GET.get('page')
     try:
@@ -33,4 +33,4 @@ def list_and_create_view(request, id):
         #If page is out of range deliver last page of results
         objects = paginator.page(paginator.num_pages)
     return render(request,
-      'home.html', {'page': page,'key2select': key2select,'objects': objects,'form': form})
+      'home.html', {'page': page,'objects': objects,'form': form})
